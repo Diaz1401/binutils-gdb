@@ -125,7 +125,7 @@ input_file_open (const char *filename,
   gas_assert (filename != 0);	/* Filename may not be NULL.  */
   if (filename[0])
     {
-      f_in = fopen (filename, FOPEN_RT);
+      f_in = fopen (filename, "rm");
       file_name = filename;
     }
   else
@@ -202,6 +202,8 @@ input_file_open (const char *filename,
 void
 input_file_close (void)
 {
+  /* For performance, just leak the FD, we exit instantly anyway */
+  return;
   /* Don't close a null file pointer.  */
   if (f_in != NULL)
     fclose (f_in);
@@ -248,8 +250,6 @@ input_file_give_next_buffer (char *where /* Where to place 1st character of new 
     return_value = where + size;
   else
     {
-      if (fclose (f_in))
-	as_warn (_("can't close %s: %s"), file_name, xstrerror (errno));
 
       f_in = (FILE *) 0;
       return_value = 0;

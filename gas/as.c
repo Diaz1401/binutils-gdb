@@ -1279,13 +1279,6 @@ gas_early_init (int *argcp, char ***argvp)
   start_time = get_run_time ();
   signal_init ();
 
-#ifdef HAVE_LC_MESSAGES
-  setlocale (LC_MESSAGES, "");
-#endif
-  setlocale (LC_CTYPE, "");
-  bindtextdomain (PACKAGE, LOCALEDIR);
-  textdomain (PACKAGE);
-
   if (debug_memory)
     chunksize = 64;
 
